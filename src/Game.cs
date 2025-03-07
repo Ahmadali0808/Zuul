@@ -51,6 +51,7 @@ class Game
 		
 		// Start game outside
 		player.CurrentRoom = outside;
+        outside.Chest.Put("medkit", medkit);
 	}
 // khgk
 	// Main play routine. Loops until end of play.
@@ -130,7 +131,8 @@ class Game
 
 	private void PrintLook()
 	{
-		Console.WriteLine("Room is empty");
+		Console.WriteLine("The room contains:" + player.CurrentRoom.Chest.ShowInventory());
+   
 	}
 
 	private void PrintStatus()
