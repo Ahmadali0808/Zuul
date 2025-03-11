@@ -47,13 +47,13 @@ class Game
 		basement.AddExit("up", outside); // Add exit to outside
 
 		Item medkit = new Item(5, "You are heald");
-		Item Position = new Item(3, "You gained 10 health");
-		
+		Item Position = new Item(3, "You gained 10 Health");
+
 		// Start game outside
 		player.CurrentRoom = outside;
-        outside.Chest.Put("medkit", medkit);
+		outside.Chest.Put("medkit", medkit);
 	}
-// khgk
+	// khgk
 	// Main play routine. Loops until end of play.
 	public void Play()
 	{
@@ -113,6 +113,10 @@ class Game
 			case "status":
 				PrintStatus();
 				break;
+			case "take":
+				Take(command);
+				break;
+
 		}
 
 		return wantToQuit;
@@ -129,15 +133,42 @@ class Game
 		parser.PrintValidCommands();
 	}
 
+	private void Take(Command command)
+	{
+		if (!command.HasSecondWord())
+		 {
+		 	Console.WriteLine("Take what?");
+		 	return;
+		 }
+		 string itemName = command.SecondWord;
+		 Item item = player.CurrentRoom.Chest.Get(itemName);
+
+		 if (item == null)
+		 {
+		 	Console.WriteLine("There is no" + itemName + "here.");
+		 	return;
+		 }
+
+		 else if (player.Backpack.Put(itemName, item))
+		 {
+			Console.WriteLine("You have picked up a " + itemName);
+		 }
+		 else
+		{
+		 	Console.WriteLine("You cannot pick up a " + itemName + " because it is too heavy.");
+		 }
+	
+	}
+
 	private void PrintLook()
 	{
 		Console.WriteLine("The room contains:" + player.CurrentRoom.Chest.ShowInventory());
-   
+
 	}
 
 	private void PrintStatus()
 	{
-		Console.WriteLine("Your current health is: " + player.GetHealth());
+		Console.WriteLine("Your current Health is: " + player.GetHealth());
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new
@@ -161,7 +192,7 @@ class Game
 			return;
 		}
 
-		// Damage the player by 10 health points
+		// Damage the player by 10 Health points
 		player.Damage(10);
 		if (!player.IsAlive())
 		{

@@ -18,9 +18,13 @@ public int TotalWeight()
 int total = 0;
 // TODO implement:
 // loop through the items, and add all the weights
+foreach (Item item in items.Values)
+{
+    total += item.Weight;
+}
 return total;
 }
-public int FreeWeight()
+public int FreeWeight() 
 {
 // TODO implement:
 // compare MaxWeight and TotalWeight()
@@ -54,16 +58,21 @@ public Item Get(string itemName)
 // Find Item in items Dictionary
 // remove Item from items Dictionary if found
 // return Item or null
-return null;
+if (items.ContainsKey(itemName))
+{
+    Item item = items[itemName];
+    items.Remove(itemName);
+    return item;
 }
-
+    return null;
+}
 public string ShowInventory()
 {
-// TODO implement:
-if (items.Count == 0)
-{
-    return "Nothing in this room.";
-}
-return string.Join(", ", items.Keys);
+    // TODO implement:
+    if (items.Count == 0)
+    {
+        return "Nothing in this room.";
+    }
+    return string.Join(", ", items.Keys);
 }
 }
