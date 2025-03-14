@@ -116,6 +116,9 @@ class Game
 			case "take":
 				Take(command);
 				break;
+			case "drop":
+				Drop(command);
+				break;
 
 		}
 
@@ -159,6 +162,28 @@ class Game
 		 }
 	
 	}
+	private void Drop(Command command)
+	{
+		if (!command.HasSecondWord())
+		 {
+		 	Console.WriteLine("Drop what?");
+		 	return;
+		 }
+		 string itemName = command.SecondWord;
+		 Item item = player.Backpack.Get(itemName);
+		 if (item == null)
+		 {
+		 	Console.WriteLine("You do not have a " + itemName + " in your backpack.");
+		 	return;
+		 }
+		 else
+		 {
+			player.CurrentRoom.Chest.Put(itemName, item);
+		 	Console.WriteLine("You have dropped a " + itemName);
+		 }
+
+	}
+	
 
 	private void PrintLook()
 	{
@@ -169,6 +194,7 @@ class Game
 	private void PrintStatus()
 	{
 		Console.WriteLine("Your current Health is: " + player.GetHealth());
+		Console.WriteLine("Your backpack contains:" + player.Backpack.ShowInventory());
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new

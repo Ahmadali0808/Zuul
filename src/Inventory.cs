@@ -71,7 +71,7 @@ public string ShowInventory()
     // TODO implement:
     if (items.Count == 0)
     {
-        return "Nothing in this room.";
+        return " Nothing";
     }
     return string.Join(", ", items.Keys);
 }
